@@ -1,10 +1,13 @@
 function moveToMapPosition (master, clones) {
+  var center = master.getCenter();
   var zoom = master.getZoom();
   var bearing = master.getBearing();
   var pitch = master.getPitch();
+  console.log(clones.length)
 
   clones.forEach(function (clone) {
     clone.jumpTo({
+      center: {lng: center.lng - (0.00718288424593 / (clones.length + 1)), lat: center.lat},
       zoom: zoom,
       bearing: bearing,
       pitch: pitch
