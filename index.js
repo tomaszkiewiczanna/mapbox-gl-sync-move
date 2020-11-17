@@ -3,10 +3,16 @@ function moveToMapPosition (master, clones) {
   var zoom = master.getZoom();
   var bearing = master.getBearing();
   var pitch = master.getPitch();
+  
+  // const offset = 0.0068735958872669735 / 2
+  // const width = 1280
+
+  const windowWidth =  window !== undefined ? window.innerWidth : false
+  const mapOffset = windowWidth * 0.0000026849983934636613
 
   clones.forEach(function (clone) {
     clone.jumpTo({
-      center: {lng: center.lng - (0.00902661441086846 / 2), lat: center.lat},
+      center: {lng: center.lng - mapOffset, lat: center.lat},
       zoom: zoom,
       bearing: bearing,
       pitch: pitch
