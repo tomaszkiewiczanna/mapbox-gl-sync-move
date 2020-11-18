@@ -1,18 +1,20 @@
-function moveToMapPosition (master, clones) {
+const moveToMapPosition = (master, clones, mapAmount) => {
   var center = master.getCenter();
   var zoom = master.getZoom();
   var bearing = master.getBearing();
   var pitch = master.getPitch();
 
-  // const offset = 0.0068735958872669735 / 2
-  // const width = 1280
+  const crazyNumber = mapAmount === 2 ? 0.0068735958872669735 : 0.0068735958872669735;
+  const baseOffset = crazyNumber / mapAmount
+  const baseWidth = 1280
+  const ratio = baseOffset/baseWidth
 
   const windowWidth =  window !== undefined ? window.innerWidth : false
-  const mapOffset = windowWidth * 0.0000026849983934636613
+  const mapOffset = windowWidth * ratio
 
   clones.forEach(function (clone) {
     clone.jumpTo({
-      center: {lng: center.lng - mapOffset, lat: center.lat},
+      center: {lng: center.lng - (mapOffset * (mapAmount - 1)), lat: center.lat},
       zoom: zoom,
       bearing: bearing,
       pitch: pitch
@@ -31,13 +33,15 @@ function moveToMapPosition (master, clones) {
 //   double-click zooming, box-zooming, and flying
 function syncMaps () {
   var maps;
-  var argLen = arguments.length;
+  var argLen = arguments[0].length;
+  var mapAmount = arguments[1];
+
   if (argLen === 1) {
-    maps = arguments[0];
+    maps = arguments[0][0];
   } else {
     maps = [];
     for (var i = 0; i < argLen; i++) {
-      maps.push(arguments[i]);
+      maps.push(arguments[0][i]);
     }
   }
 
@@ -64,7 +68,7 @@ function syncMaps () {
   // on all the maps, move it, then turn the listeners on again
   function sync (master, clones) {
     off();
-    moveToMapPosition(master, clones);
+    moveToMapPosition(master, clones, mapAmount);
     on();
   }
 
