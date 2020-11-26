@@ -4,10 +4,11 @@ const moveToMapPosition = (master, clones, mapAmount) => {
   var bearing = master.map.getBearing();
   var pitch = master.map.getPitch();
 
-  const crazyNumber = mapAmount === 2 ? 0.0068735958872669735 : 0.0068735958872669735;
+  const crazyNumber = 0.0068735958872669735;
   const baseOffset = crazyNumber / mapAmount
   const baseWidth = 1280
-  const ratio = baseOffset/baseWidth
+  const ratio = baseOffset / baseWidth
+  console.log(master)
 
   const windowWidth =  window !== undefined ? window.innerWidth : false
   const mapOffset = windowWidth * ratio
